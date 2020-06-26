@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Task_1
 {
     class Program
     {
+        public delegate void Notification();
+        public event Notification NotificationPublished;
         static Barrier bar = new Barrier(11);
         public static List<string> ColourList = new List<string> { "Yellow", "Red", "Blue", "Green", "Magenta", "Cyan", "DarkYellow", "DarkGreen", "White", "DarkBlue" };
         public static Random rnd = new Random();
@@ -24,6 +23,7 @@ namespace Task_1
         {
             Console.WriteLine("\t\t\tWelcome to Printer Simulation!");
             pr.CreateColours();
+            pr.NotificationPublished += () =>{Console.WriteLine("\n\t\t\tAll files are successfuly printed!");};
             for (int i = 1; i < 11; i++)
             {
                 Thread.Sleep(100);
@@ -44,7 +44,7 @@ namespace Task_1
                 }
             }
             bar.SignalAndWait();
-            Console.WriteLine("\n\t\t\t All requests have been processed!");
+            pr.OnNotificationPublished();
             Console.ReadLine();
         }
         public static void A3Printer(object Request)
@@ -88,62 +88,35 @@ namespace Task_1
             using (sw)
             {
                 foreach (var colour in ColourList)
-                {
                     sw.WriteLine(colour);
-                }
             }
         }
         public static void TextcColour(string colour)
         {
             if (colour == "Yellow")
-            {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-            }
             else if (colour == "Red")
-            {
                 Console.ForegroundColor = ConsoleColor.Red;
-
-            }
             else if (colour == "Blue")
-            {
                 Console.ForegroundColor = ConsoleColor.Blue;
-
-            }
             else if (colour == "Green")
-            {
                 Console.ForegroundColor = ConsoleColor.Green;
-
-            }
             else if (colour == "Magenta")
-            {
                 Console.ForegroundColor = ConsoleColor.Magenta;
-
-            }
             else if (colour == "Cyan")
-            {
                 Console.ForegroundColor = ConsoleColor.Cyan;
-
-            }
             else if (colour == "DarkYellow")
-            {
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
-
-            }
             else if (colour == "DarkGreen")
-            {
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
-
-            }
             else if (colour == "White")
-            {
                 Console.ForegroundColor = ConsoleColor.White;
-
-            }
             else if (colour == "DarkBlue")
-            {
                 Console.ForegroundColor = ConsoleColor.DarkBlue;
-
-            }
+        }
+        protected virtual void OnNotificationPublished()
+        {
+            NotificationPublished?.Invoke();
         }
     }
     class PrintRequest
