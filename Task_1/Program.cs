@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Linq;
-
 namespace Task_1
 {
     class Program
@@ -22,7 +21,7 @@ namespace Task_1
         static string[] Formats = new string[] { "A3", "A4" };
         public static readonly string ColourPath = @".../.../ColourPallet.txt";
         static StreamWriter sw;
-        static string[] lines = File.ReadAllLines(@".../.../ColourPallet.txt");
+        static string[] lines = File.ReadAllLines(ColourPath);
         //Locks are used to lock printers so only 1 thread can print at a time
         static object A3Lock = new object();
         static object A4Lock = new object();
@@ -198,7 +197,6 @@ namespace Task_1
         internal string Colour;
         internal string Orientation;
         internal bool HasPrinted;
-
         public PrintRequest(Thread t)
         {
             HasPrinted = false;
