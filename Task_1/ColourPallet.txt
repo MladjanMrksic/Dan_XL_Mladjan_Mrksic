@@ -2,9 +2,9 @@ Yellow
 Red
 Blue
 Green
-Orange
-Pink
-Purple
-Brown
+Magenta
+Cyan
+DarkYellow
+DarkGreen
 White
-LightBlue
+DarkBlue
